@@ -6,6 +6,8 @@ from myurlfetch import urlfetch
 
 from storelayer import rtcached
 
+rtcached = partial(rtcached, namespace_prefixer = lambda ns: 'tpcebus_%s' % ns)
+
 def _make_raw_data_fetchers():
 
     materials = (
