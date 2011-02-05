@@ -71,7 +71,7 @@ def _raw_route_waits(route_name):
     Argument:   unicode route_name
     Dependence: _raw_route_clean
     Return    : ([...], [...])'''
-    raw_route_data = _raw_route(route_name)
+    raw_route = _raw_route(route_name)
     return (_clean(raw_route[1::4]), _clean(raw_route[3::4]))
 
 def _clean(seq):
@@ -122,6 +122,7 @@ def stop_location(stop_name):
     return (None, None)
 
 if __name__ == '__main__':
-    #rtcache.load(open('rtcache.pickle'))
-    print stop_names()
-    #rtcache.dump(open('rtcache.pickle', 'w'))
+    route_name = u'綠6'
+    is_return = True
+    for stop, wait in zip(route_stops(route_name, is_return), route_waits(route_name, is_return)):
+        print stop, ':', wait
