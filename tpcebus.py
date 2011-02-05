@@ -2,9 +2,10 @@
 
 import re
 from urllib     import urlencode
-from myurlfetch import urlfetch
+from functools  import partial
 
 from storelayer import rtcached
+from myurlfetch import urlfetch
 
 rtcached = partial(rtcached, namespace_prefixer = lambda ns: 'tpcebus_%s' % ns)
 
