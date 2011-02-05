@@ -15,6 +15,7 @@ from storelayer import rtcached, rtcache
 from myurlfetch import urlfetch
 
 rtcached = partial(rtcached, namespace_prefixer = lambda ns: 'ntcebus_%s' % ns)
+urlfetch = partial(urlfetch, encoding='big5')
 
 URL_NTC_EBUS_MENU  = 'http://210.69.92.234/pda/index.html'
 URL_NTC_EBUS_ROUTE = 'http://210.69.92.234/pda/BusStop.asp?rid=%s'
