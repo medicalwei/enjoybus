@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
+# confirmed it is work in python 2.6 and GAE
 
 import re
-from urllib     import urlencode
 from functools  import partial
 
-from storelayer import rtcached
-from myurlfetch import urlfetch
+from storelayer import rtcached, memcached, datastored
+from unisugar   import urlread, uni, cod
 
 rtcached = partial(rtcached, namespace_prefixer = lambda ns: 'tpcebus_%s' % ns)
 
@@ -19,10 +19,10 @@ def _make_raw_data_fetchers():
     )
     make_partial_urlfetch = ( lambda url, encoding, *keys: (
                 lambda *values:
-                    urlfetch(
+                    urlread(
                         url,
-                        urlencode( dict((k, v.encode('utf-8')) for k, v in zip(keys, values)) ) if keys else None,
-                        encoding
+                        dict(zip(keys, values)) if keys else None,
+                        encoding=encoding
                     )
             ))
     return (make_partial_urlfetch(*material) for material in materials)
@@ -147,12 +147,8 @@ def stop_locations(stop_name):
     table = _suffixed_raw_stop(stop_name)
     return zip(map(float, table[1]), map(float, table[2]))
 
-
 if __name__ == '__main__':
     route = (u'綠2左', False)
-    for stop, wait in zip(*[f(route) for f in (route_stops, route_waits)]):
-        print '%s: %d' % (stop, wait)
-
-    stop_name = u'尖山腳'
-    for route, wait, location in zip(*(f(stop_name) for f in (stop_routes, stop_waits, stop_locations))):
-        print '%s at %s: %d' % (route, location, wait)
+    stop_name = u'捷運景安站'
+    print cod( uni( zip(route_stops(route), route_waits(route)) ) )
+    print cod( uni( zip(stop_routes(stop_name), stop_waits(stop_name)) ) )
