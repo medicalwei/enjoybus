@@ -20,7 +20,7 @@ def _raw_menu():
     '''
     Dependence: urlfetch
     Return    : ([route_name, ...], [route_code, ...])'''
-    source = urlread(URL_NTC_EBUS_MENU)
+    source = urlread(URL_NTC_EBUS_MENU, encoding='big-5')
     return (RE_MENU_ROUTE_NAME.findall(source), RE_MENU_ROUTE_CODE.findall(source))
 
 def _menu():
@@ -41,7 +41,7 @@ def _raw_route(route_name):
     Argument  : unicode route_name
     Dependence: urlfetch
     Return    : [data, ...]'''
-    return RE_ROUTE_TABLE_TD.findall(urlread(URL_NTC_EBUS_ROUTE % _menu()[route_name]))
+    return RE_ROUTE_TABLE_TD.findall(urlread(URL_NTC_EBUS_ROUTE % _menu()[route_name], encoding='big5'))
 
 @rtcached
 def _raw_route_stops(route_name):
